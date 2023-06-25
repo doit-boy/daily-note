@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Model\TaskItem;
 use App\Service\UserAuth;
 use HyperfTest\HttpTestCase;
 
@@ -30,6 +31,21 @@ class TaskItemTest extends HttpTestCase
         ]);
 
         $this->assertSame(0, $res['code']);
+
+        if ($model = TaskItem::query()->where('task_id', 1)->first()) {
+            $res = $this->get('/task-item/' . $model->id, [], [
+                UserAuth::X_TOKEN => $this->token,
+            ]);
+
+            $this->assertSame(0, $res['code']);
+            $this->assertSame(1, $res['data']['task_id']);
+
+            $res = $this->json('/task-item/' . $model->id . '/delete', [], [
+                UserAuth::X_TOKEN => $this->token,
+            ]);
+
+            $this->assertSame(0, $res['code']);
+        }
     }
 
     public function testTaskItemList()

@@ -54,7 +54,7 @@ class TaskController extends Controller
         return $this->response->success(new SavedSchema($result));
     }
 
-    #[SA\Get('/task/{id:\d+}', summary: '更新任务', tags: ['任务管理'])]
+    #[SA\Get('/task/{id:\d+}', summary: '任务详情', tags: ['任务管理'])]
     #[SA\PathParameter(name: 'id', description: '任务ID')]
     #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/TaskSchema'))]
     public function info(int $id)

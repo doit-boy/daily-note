@@ -15,6 +15,7 @@ use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\TaskItem;
 use App\Schema\TaskItemListSchema;
+use App\Schema\TaskItemSchema;
 use App\Service\Dao\TaskDao;
 use App\Service\Dao\TaskItemDao;
 use App\Service\Formatter\TaskItemFormatter;
@@ -77,5 +78,25 @@ class TaskItemService extends Service
         $model->value = $input['value'];
         $model->comment = $input['comment'] ?? '';
         return $model->save();
+    }
+
+    public function info(int $id, int $userId): TaskItemSchema
+    {
+        $model = $this->dao->first($id, true);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        return new TaskItemSchema($model);
+    }
+
+    public function delete(int $id, int $userId): bool
+    {
+        $model = $this->dao->first($id, true);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        return $model->delete();
     }
 }

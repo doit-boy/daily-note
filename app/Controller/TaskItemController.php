@@ -57,4 +57,28 @@ class TaskItemController extends Controller
 
         return $this->response->success($result);
     }
+
+    #[SA\Get('/task-item/{id:\d+}', summary: '任务记录详情', tags: ['任务记录管理'])]
+    #[SA\PathParameter(name: 'id', description: '任务ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/TaskItemSchema'))]
+    public function info(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->info($id, $userId);
+
+        return $this->response->success($result);
+    }
+
+    #[SA\Post('/task-item/{id:\d+}/delete', summary: '删除任务记录', tags: ['任务记录管理'])]
+    #[SA\PathParameter(name: 'id', description: '任务ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
+    public function delete(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->delete($id, $userId);
+
+        return $this->response->success(new SavedSchema($result));
+    }
 }
