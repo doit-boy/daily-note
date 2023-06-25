@@ -14,8 +14,10 @@ namespace App\Service;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\TaskItem;
+use App\Schema\TaskItemListSchema;
 use App\Service\Dao\TaskDao;
 use App\Service\Dao\TaskItemDao;
+use App\Service\Formatter\TaskItemFormatter;
 use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
@@ -26,13 +28,32 @@ class TaskItemService extends Service
     #[Inject]
     protected TaskItemDao $dao;
 
+    #[Inject]
+    protected TaskItemFormatter $formatter;
+
+    public function index(int $taskId, int $userId, int $offset = 0, int $limit = 10): TaskItemListSchema
+    {
+        $task = di()->get(TaskDao::class)->first($taskId, true);
+        if ($task->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        [$count, $models] = $this->dao->findByTaskId($taskId, $offset, $limit);
+
+        return new TaskItemListSchema(
+            $count,
+            $this->formatter->formatList($models)
+        );
+    }
+
     public function save(
         int $id,
+        int $taskId,
         int $userId,
-        #[ArrayShape(['task_id' => 'integer', 'value' => 'string', 'comment' => 'string'])]
+        #[ArrayShape(['value' => 'string', 'comment' => 'string'])]
         array $input
     ): bool {
-        $task = di()->get(TaskDao::class)->first($input['task_id'], true);
+        $task = di()->get(TaskDao::class)->first($taskId, true);
         if ($task->user_id !== $userId) {
             throw new BusinessException(ErrorCode::PERMISSION_DENY);
         }

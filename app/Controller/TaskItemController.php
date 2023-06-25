@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Request\PageRequest;
 use App\Schema\SavedSchema;
 use App\Service\TaskItemService;
 use App\Service\UserAuth;
@@ -35,9 +36,25 @@ class TaskItemController extends Controller
     public function save(int $id, SwaggerRequest $request)
     {
         $userId = UserAuth::instance()->build()->getId();
+        $taskId = (int) $request->input('task_id');
 
-        $result = $this->service->save($id, $userId, $request->all());
+        $result = $this->service->save($id, $taskId, $userId, $request->all());
 
         return $this->response->success(new SavedSchema($result));
+    }
+
+    #[SA\Get('/task-item', summary: '任务记录列表', tags: ['任务记录管理'])]
+    #[SA\QueryParameter(parameter: 'task_id', description: '任务ID', rules: 'required|integer')]
+    #[SA\QueryParameter(parameter: 'offset', description: '偏移量', rules: 'integer')]
+    #[SA\QueryParameter(parameter: 'limit', description: '单页条数', rules: 'integer')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/TaskItemListSchema'))]
+    public function index(SwaggerRequest $request, PageRequest $page)
+    {
+        $taskId = (int) $request->input('task_id');
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->index($taskId, $userId, $page->offset(), $page->limit());
+
+        return $this->response->success($result);
     }
 }

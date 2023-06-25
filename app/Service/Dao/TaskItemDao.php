@@ -16,6 +16,7 @@ use App\Exception\BusinessException;
 use App\Model\TaskItem;
 use Carbon\Carbon;
 use Han\Utils\Service;
+use Hyperf\Database\Model\Collection;
 
 class TaskItemDao extends Service
 {
@@ -34,5 +35,16 @@ class TaskItemDao extends Service
         return TaskItem::query()->where('task_id', $taskId)
             ->where('date', Carbon::today()->toDateString())
             ->first();
+    }
+
+    /**
+     * @return array{int, Collection<int, TaskItem>}
+     */
+    public function findByTaskId(int $taskId, int $offset, int $limit): array
+    {
+        $query = TaskItem::query()->where('task_id', $taskId)
+            ->orderBy('id', 'desc');
+
+        return $this->factory->model->pagination($query, $offset, $limit);
     }
 }
