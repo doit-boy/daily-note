@@ -19,3 +19,7 @@ jobs:
           docker login ghcr.io --username dracovish -p $GITHUB_TOKEN
           docker push ghcr.io/doit-boy/daily-note/daily-note:latest
           
+          docker tag ghcr.io/doit-boy/daily-note/daily-note:latest registry.cn-shanghai.aliyuncs.com/redbook-material/daily-note:latest
+          docker login docker login --username=${{ secrets.ALIYUN_USERNAME }} registry.cn-shanghai.aliyuncs.com -p ${{ secrets.ALIYUN_PASSWORD }}
+          docker push registry.cn-shanghai.aliyuncs.com/redbook-material/daily-note:latest
+          
