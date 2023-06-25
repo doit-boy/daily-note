@@ -15,6 +15,7 @@ namespace App\Model;
  * @property int $id
  * @property int $user_id
  * @property int $task_id
+ * @property string $date
  * @property string $value
  * @property string $comment
  * @property \Carbon\Carbon $created_at
@@ -30,7 +31,7 @@ class TaskItem extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'user_id', 'task_id', 'value', 'comment', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'user_id', 'task_id', 'date', 'value', 'comment', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.

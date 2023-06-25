@@ -44,6 +44,11 @@ enum ErrorCode: int implements ErrorCodeInterface
      */
     case TASK_NOT_EXIST = 1101;
 
+    /**
+     * @Message("任务记录不存在")
+     */
+    case TASK_ITEM_NOT_EXIST = 1200;
+
     public function getMessage(array $translate = null): string
     {
         $arguments = [];
