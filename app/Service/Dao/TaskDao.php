@@ -15,6 +15,7 @@ use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\Task;
 use Han\Utils\Service;
+use Hyperf\Collection\Collection;
 
 class TaskDao extends Service
 {
@@ -26,5 +27,15 @@ class TaskDao extends Service
         }
 
         return $model;
+    }
+
+    /**
+     * @return array{int, Collection<int, Task>}
+     */
+    public function find(int $userId, int $offset, int $limit): array
+    {
+        $query = Task::query()->where('user_id', $userId)->orderBy('id', 'desc');
+
+        return $this->factory->model->pagination($query, $offset, $limit);
     }
 }

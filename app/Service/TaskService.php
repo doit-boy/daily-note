@@ -16,6 +16,7 @@ use App\Exception\BusinessException;
 use App\Model\Task;
 use App\Schema\TaskListSchema;
 use App\Service\Dao\TaskDao;
+use App\Service\Formatter\TaskFormatter;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 use JetBrains\PhpStorm\ArrayShape;
@@ -25,9 +26,17 @@ class TaskService extends Service
     #[Inject]
     protected TaskDao $dao;
 
+    #[Inject]
+    protected TaskFormatter $formatter;
+
     public function index(int $userId, int $offset = 0, int $limit = 10): TaskListSchema
     {
-        return new TaskListSchema(0, []);
+        [$count, $models] = $this->dao->find($userId, $offset, $limit);
+
+        return new TaskListSchema(
+            $count,
+            $this->formatter->formatList($models)
+        );
     }
 
     public function save(
