@@ -10,10 +10,9 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php-version: [ '8.1', '8.2' ]
-        swoole-version: [ 'v5.0.3', 'master' ]
+        swoole-version: [ 'v5.0.3' ]
       max-parallel: 5
     env:
-      SW_VERSION: ${{ matrix.swoole-version }}
       PHP_VERSION: ${{ matrix.php-version }}
       PHP_CS_FIXER_IGNORE_ENV: 1
     steps:
@@ -26,9 +25,11 @@ jobs:
           tools: phpize
           ini-values: opcache.enable_cli=0
           coverage: none
-          extensions: pdo, pdo_mysql, redis
+          extensions: pdo, pdo_mysql, redis, swoole
       - name: Setup Swoole
-        run: ./.github/swoole.install.sh
+        run: |
+          sudo sh -c "echo extension=swoole > /etc/php/${PHP_VERSION}/cli/conf.d/swoole.ini"
+          sudo sh -c "echo swoole.use_shortname='Off' >> /etc/php/${PHP_VERSION}/cli/conf.d/swoole.ini"
       - name: Setup MySQL ...
         run: |
           docker run -e TZ=Asia/Shanghai -e MYSQL_ALLOW_EMPTY_PASSWORD=true -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=hyperf -v $PWD/.github/init.sql:/docker-entrypoint-initdb.d/init.sql -d -p 3306:3306 --name mysql mysql/mysql-server:5.7
