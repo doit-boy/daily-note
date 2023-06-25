@@ -1,6 +1,9 @@
 name: Build Docker
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches:
+      - "master"
 
 jobs:
   build:
@@ -9,4 +12,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build
-        run: docker build -t biz-skeleton .
+        run: |
+          docker build -t daily-note .
+          docker login ghcr.io --username dracovish -p $GITHUB_TOKEN
+          docker push ghcr.io/doit-boy/daily-note/daily-note:latest
+          
