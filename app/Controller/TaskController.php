@@ -25,12 +25,10 @@ class TaskController extends Controller
     #[Inject]
     protected TaskService $service;
 
-    #[SA\Post('/task', summary: '任务列表', tags: ['任务管理'])]
-    #[SA\RequestBody(content: new SA\JsonContent(properties: [
-        new SA\Property(property: 'offset', description: '偏移量', type: 'integer', rules: 'integer'),
-        new SA\Property(property: 'limit', description: '单页条数', type: 'integer', rules: 'integer'),
-    ]))]
-    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/LoginSchema'))]
+    #[SA\Get('/task', summary: '任务列表', tags: ['任务管理'])]
+    #[SA\QueryParameter(parameter: 'offset', description: '偏移量', rules: 'integer')]
+    #[SA\QueryParameter(parameter: 'limit', description: '单页条数', rules: 'integer')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/TaskListSchema'))]
     public function index(PageRequest $page)
     {
         $userId = UserAuth::instance()->build()->getId();
@@ -48,6 +46,18 @@ class TaskController extends Controller
     ]))]
     #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
     public function save(int $id, SwaggerRequest $request)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->save($id, $userId, $request->all());
+
+        return $this->response->success(new SavedSchema($result));
+    }
+
+    #[SA\Get('/task/{id:\d+}', summary: '更新任务', tags: ['任务管理'])]
+    #[SA\PathParameter(name: 'id', description: '任务ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/TaskSchema'))]
+    public function info(int $id)
     {
         $userId = UserAuth::instance()->build()->getId();
 

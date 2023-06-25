@@ -34,7 +34,7 @@ class TaskTest extends HttpTestCase
 
     public function testTaskIndex()
     {
-        $res = $this->json('/task', [], [
+        $res = $this->get('/task', [], [
             UserAuth::X_TOKEN => $this->token,
         ]);
 
