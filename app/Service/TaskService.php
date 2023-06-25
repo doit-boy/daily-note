@@ -15,6 +15,7 @@ use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\Task;
 use App\Schema\TaskListSchema;
+use App\Schema\TaskSchema;
 use App\Service\Dao\TaskDao;
 use App\Service\Formatter\TaskFormatter;
 use Han\Utils\Service;
@@ -37,6 +38,16 @@ class TaskService extends Service
             $count,
             $this->formatter->formatList($models)
         );
+    }
+
+    public function info(int $id, int $userId): TaskSchema
+    {
+        $model = $this->dao->first($id, true);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        return new TaskSchema($model);
     }
 
     public function save(

@@ -61,8 +61,8 @@ class TaskController extends Controller
     {
         $userId = UserAuth::instance()->build()->getId();
 
-        $result = $this->service->save($id, $userId, $request->all());
+        $result = $this->service->info($id, $userId);
 
-        return $this->response->success(new SavedSchema($result));
+        return $this->response->success($result);
     }
 }

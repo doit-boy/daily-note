@@ -32,6 +32,15 @@ class TaskTest extends HttpTestCase
         $this->assertSame(0, $res['code']);
     }
 
+    public function testTaskInfo()
+    {
+        $res = $this->get('/task/1', [], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
+    }
+
     public function testTaskIndex()
     {
         $res = $this->get('/task', [], [
