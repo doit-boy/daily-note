@@ -22,14 +22,11 @@ use Hyperf\Di\Annotation\Inject;
 class UserService extends Service
 {
     #[Inject]
-    protected WeChat $wx;
-
-    #[Inject]
     protected UserDao $dao;
 
     public function login(string $code): LoginSchema
     {
-        $res = $this->wx->login($code);
+        $res = di()->get(WeChat::class)->login($code);
 
         $openid = $res['openid'] ?? null;
         if (! $openid) {
