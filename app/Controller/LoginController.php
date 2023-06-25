@@ -26,7 +26,7 @@ class LoginController extends Controller
     #[SA\RequestBody(content: new SA\JsonContent(properties: [
         new SA\Property(property: 'code', description: '微信授权码', type: 'string', rules: 'string'),
     ]))]
-    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/LoginSchema'))]
     public function login(SwaggerRequest $request)
     {
         $code = (string) $request->input('code');

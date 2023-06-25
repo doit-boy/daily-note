@@ -14,6 +14,7 @@ namespace App\Service;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\User;
+use App\Schema\LoginSchema;
 use App\Service\Dao\UserDao;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
@@ -26,7 +27,7 @@ class UserService extends Service
     #[Inject]
     protected UserDao $dao;
 
-    public function login(string $code): array
+    public function login(string $code): LoginSchema
     {
         $res = $this->wx->login($code);
 
@@ -44,8 +45,6 @@ class UserService extends Service
 
         $userAuth = UserAuth::instance()->init($user);
 
-        return [
-            'token' => $userAuth->getToken(),
-        ];
+        return new LoginSchema($userAuth->getToken());
     }
 }
