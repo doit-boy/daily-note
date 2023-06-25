@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Service\UserAuth;
 use HyperfTest\HttpTestCase;
 
 /**
@@ -23,7 +24,9 @@ class ExampleTest extends HttpTestCase
     {
         $this->assertTrue(true);
 
-        $res = $this->get('/');
+        $res = $this->get('/', [], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
 
         $this->assertSame(0, $res['code']);
     }
