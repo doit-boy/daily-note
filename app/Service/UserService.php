@@ -15,7 +15,6 @@ use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\User;
 use App\Service\Dao\UserDao;
-use App\Service\Formatter\UserFormatter;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 
@@ -26,9 +25,6 @@ class UserService extends Service
 
     #[Inject]
     protected UserDao $dao;
-
-    #[Inject]
-    protected UserFormatter $formatter;
 
     public function login(string $code): array
     {
