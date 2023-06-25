@@ -30,9 +30,19 @@ enum ErrorCode: int implements ErrorCodeInterface
     case TOKEN_INVALID = 700;
 
     /**
+     * @Message("权限非法")
+     */
+    case PERMISSION_DENY = 701;
+
+    /**
      * @Message("用户不存在")
      */
     case USER_NOT_EXIST = 1001;
+
+    /**
+     * @Message("任务不存在")
+     */
+    case TASK_NOT_EXIST = 1101;
 
     public function getMessage(array $translate = null): string
     {
