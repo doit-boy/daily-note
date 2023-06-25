@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Service\Dao;
 
 use App\Constants\ErrorCode;
+use App\Constants\Status;
 use App\Exception\BusinessException;
 use App\Model\Task;
 use Han\Utils\Service;
@@ -34,7 +35,9 @@ class TaskDao extends Service
      */
     public function find(int $userId, int $offset, int $limit): array
     {
-        $query = Task::query()->where('user_id', $userId)->orderBy('id', 'desc');
+        $query = Task::query()->where('user_id', $userId)
+            ->where('is_deleted', Status::NO)
+            ->orderBy('id', 'desc');
 
         return $this->factory->model->pagination($query, $offset, $limit);
     }

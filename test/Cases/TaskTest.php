@@ -41,6 +41,15 @@ class TaskTest extends HttpTestCase
         $this->assertSame(0, $res['code']);
     }
 
+    public function testTaskDelete()
+    {
+        $res = $this->json('/task/1/delete', [], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
+    }
+
     public function testTaskIndex()
     {
         $res = $this->get('/task', [], [

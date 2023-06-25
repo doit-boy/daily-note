@@ -65,4 +65,16 @@ class TaskController extends Controller
 
         return $this->response->success($result);
     }
+
+    #[SA\Post('/task/{id:\d+}/delete', summary: '删除任务', tags: ['任务管理'])]
+    #[SA\PathParameter(name: 'id', description: '任务ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
+    public function delete(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->delete($id, $userId);
+
+        return $this->response->success(new SavedSchema($result));
+    }
 }
