@@ -35,6 +35,11 @@ enum ErrorCode: int implements ErrorCodeInterface
     case PERMISSION_DENY = 701;
 
     /**
+     * @Message("参数非法")
+     */
+    case PARAM_INVALID = 1000;
+
+    /**
      * @Message("用户不存在")
      */
     case USER_NOT_EXIST = 1001;
