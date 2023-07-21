@@ -14,6 +14,7 @@ namespace App\Service;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\TaskItem;
+use App\Schema\ChartMetaSchema;
 use App\Schema\ChartSchema;
 use App\Schema\TaskItemListSchema;
 use App\Schema\TaskItemSchema;
@@ -24,6 +25,8 @@ use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 use JetBrains\PhpStorm\ArrayShape;
+
+use function Han\Utils\date_load;
 
 class TaskItemService extends Service
 {
@@ -55,7 +58,24 @@ class TaskItemService extends Service
             throw new BusinessException(ErrorCode::PERMISSION_DENY);
         }
 
-        return new ChartSchema('图表', []);
+        $models = di()->get(TaskItemDao::class)->queryByTaskId($taskId);
+        if ($models->isEmpty()) {
+            return new ChartSchema($task->name, []);
+        }
+
+        $first = $models->shift();
+        $values = [
+            new ChartMetaSchema($first->date, $first->value),
+        ];
+        $date = date_load($first->date);
+        foreach ($models as $model) {
+            $now = date_load($model->date);
+            while ($date->addDay()->getTimestamp() <= $now->getTimestamp()) {
+                $values[$date->toDateString()] = new ChartMetaSchema($date->toDateString(), $model->value);
+            }
+        }
+
+        return new ChartSchema($task->name, array_values($values));
     }
 
     public function save(

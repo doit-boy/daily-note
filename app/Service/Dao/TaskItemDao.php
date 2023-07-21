@@ -47,4 +47,14 @@ class TaskItemDao extends Service
 
         return $this->factory->model->pagination($query, $offset, $limit);
     }
+
+    /**
+     * @return Collection<int, TaskItem>
+     */
+    public function queryByTaskId(int $taskId, array $input = []): Collection
+    {
+        return TaskItem::query()->where('task_id', $taskId)
+            ->orderBy('date', 'asc')
+            ->get();
+    }
 }

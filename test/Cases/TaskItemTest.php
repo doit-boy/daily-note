@@ -58,4 +58,15 @@ class TaskItemTest extends HttpTestCase
 
         $this->assertSame(0, $res['code']);
     }
+
+    public function testTaskItemChart()
+    {
+        $res = $this->get('/task-item/chart', [
+            'task_id' => 1,
+        ], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
+    }
 }
