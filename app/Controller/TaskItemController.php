@@ -58,6 +58,19 @@ class TaskItemController extends Controller
         return $this->response->success($result);
     }
 
+    #[SA\Get('/task-item/chart', summary: '任务记录图表', tags: ['任务记录管理'])]
+    #[SA\QueryParameter(parameter: 'task_id', description: '任务ID', rules: 'required|integer')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/ChartSchema'))]
+    public function chart(SwaggerRequest $request, PageRequest $page)
+    {
+        $taskId = (int) $request->input('task_id');
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->chart($taskId, $userId);
+
+        return $this->response->success($result);
+    }
+
     #[SA\Get('/task-item/{id:\d+}', summary: '任务记录详情', tags: ['任务记录管理'])]
     #[SA\PathParameter(name: 'id', description: '任务ID')]
     #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/TaskItemSchema'))]

@@ -14,6 +14,7 @@ namespace App\Service;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\TaskItem;
+use App\Schema\ChartSchema;
 use App\Schema\TaskItemListSchema;
 use App\Schema\TaskItemSchema;
 use App\Service\Dao\TaskDao;
@@ -45,6 +46,16 @@ class TaskItemService extends Service
             $count,
             $this->formatter->formatList($models)
         );
+    }
+
+    public function chart(int $taskId, int $userId): ChartSchema
+    {
+        $task = di()->get(TaskDao::class)->first($taskId, true);
+        if ($task->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        return new ChartSchema('图表', []);
     }
 
     public function save(
