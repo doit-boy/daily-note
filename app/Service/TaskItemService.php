@@ -26,8 +26,6 @@ use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 use JetBrains\PhpStorm\ArrayShape;
 
-use function Han\Utils\date_load;
-
 class TaskItemService extends Service
 {
     #[Inject]
@@ -67,12 +65,8 @@ class TaskItemService extends Service
         $values = [
             new ChartMetaSchema($first->date, $first->value),
         ];
-        $date = date_load($first->date);
         foreach ($models as $model) {
-            $now = date_load($model->date);
-            while ($date->addDay()->getTimestamp() <= $now->getTimestamp()) {
-                $values[$date->toDateString()] = new ChartMetaSchema($date->toDateString(), $model->value);
-            }
+            $values[] = new ChartMetaSchema($model->date, $model->value);
         }
 
         return new ChartSchema($task->name, array_values($values));
