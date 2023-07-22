@@ -62,6 +62,17 @@ class TaskService extends Service
         return $model->save();
     }
 
+    public function top(int $id, int $userId): bool
+    {
+        $model = $this->dao->first($id, true);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        $model->sort = time();
+        return $model->save();
+    }
+
     public function save(
         int $id,
         int $userId,

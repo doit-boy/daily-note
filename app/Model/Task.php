@@ -14,6 +14,7 @@ namespace App\Model;
 /**
  * @property int $id
  * @property int $user_id
+ * @property int $sort
  * @property string $name
  * @property string $summary
  * @property int $is_deleted
@@ -30,10 +31,10 @@ class Task extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'user_id', 'name', 'summary', 'is_deleted', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'user_id', 'sort', 'name', 'summary', 'is_deleted', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'is_deleted' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'sort' => 'integer', 'is_deleted' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

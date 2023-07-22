@@ -77,4 +77,16 @@ class TaskController extends Controller
 
         return $this->response->success(new SavedSchema($result));
     }
+
+    #[SA\Post('/task/{id:\d+}/top', summary: '置顶任务', tags: ['任务管理'])]
+    #[SA\PathParameter(name: 'id', description: '任务ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
+    public function top(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->service->top($id, $userId);
+
+        return $this->response->success(new SavedSchema($result));
+    }
 }

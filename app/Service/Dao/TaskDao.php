@@ -37,6 +37,7 @@ class TaskDao extends Service
     {
         $query = Task::query()->where('user_id', $userId)
             ->where('is_deleted', Status::NO)
+            ->orderBy('sort', 'desc')
             ->orderBy('id', 'desc');
 
         return $this->factory->model->pagination($query, $offset, $limit);
