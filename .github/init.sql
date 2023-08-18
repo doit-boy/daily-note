@@ -24,15 +24,16 @@ SET NAMES utf8mb4;
 # ------------------------------------------------------------
 
 CREATE TABLE `task` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `name` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务标题',
-  `summary` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '备注',
-  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '0未删除 1已删除',
-  `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
-  `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `INDEX_USER_ID` (`user_id`)
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+    `sort` int unsigned NOT NULL DEFAULT '0' COMMENT '排序值',
+    `name` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务标题',
+    `summary` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '备注',
+    `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '0未删除 1已删除',
+    `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+    `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+    PRIMARY KEY (`id`),
+    KEY `INDEX_USER_ID` (`user_id`,`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 LOCK TABLES `task` WRITE;
