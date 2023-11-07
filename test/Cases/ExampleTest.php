@@ -31,4 +31,12 @@ class ExampleTest extends HttpTestCase
 
         $this->assertSame(0, $res['code']);
     }
+
+    /**
+     * @group OpenSSL
+     */
+    public function testOpenSSL()
+    {
+        $this->assertNotFalse(openssl_encrypt('12345', 'bf', 'xxxxxxxx', 0, 'xxxxxxxx'));
+    }
 }

@@ -10,6 +10,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php-version: [ '8.1', '8.2' ]
+        swoole-version: [ 'v5.0.3', 'v5.1.0', 'master' ]
       max-parallel: 5
     env:
       PHP_VERSION: ${{ matrix.php-version }}
@@ -45,4 +46,4 @@ jobs:
           cp .env.example .env
           vendor/bin/php-cs-fixer fix --dry-run
           composer analyse
-          composer test
+          composer test -- --exclude-group OpenSSL
