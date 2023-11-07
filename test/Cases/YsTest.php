@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace HyperfTest\Cases;
 
 use App\Service\SubService\YsClient;
+use App\Service\UserAuth;
 use HyperfTest\HttpTestCase;
 
 /**
@@ -30,5 +31,17 @@ class YsTest extends HttpTestCase
         $res = di()->get(YsClient::class)->getSumComment($res['role_data']);
 
         $this->assertIsArray($res);
+    }
+
+    public function testYsPlayerCreate()
+    {
+        $res = $this->json('/ys-player/create', [
+            'uid' => 258462145,
+            'comment' => '单侧专用',
+        ], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
     }
 }

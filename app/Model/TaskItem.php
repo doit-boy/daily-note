@@ -14,11 +14,11 @@ namespace App\Model;
 
 /**
  * @property int $id
- * @property int $user_id
- * @property int $task_id
- * @property string $date
- * @property string $value
- * @property string $comment
+ * @property int $user_id 用户ID
+ * @property int $task_id 任务ID
+ * @property string $date 日期
+ * @property string $value 数值
+ * @property string $comment 备注
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */

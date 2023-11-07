@@ -19,9 +19,11 @@ use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
 use Hyperf\Codec\Json;
 use Hyperf\Collection\Arr;
+use JetBrains\PhpStorm\ArrayShape;
 
 class YsClient extends Service
 {
+    #[ArrayShape(['role_data' => [['role' => 'string', 'role_img' => 'string', 'level' => 'int']]])]
     public function getPlayerCard(int $uid): array
     {
         $response = $this->client()->get('/ys/getPlayerCard.php', [

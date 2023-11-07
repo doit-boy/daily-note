@@ -14,28 +14,27 @@ namespace App\Model;
 
 /**
  * @property int $id
- * @property int $user_id 用户ID
- * @property int $sort 排序值
- * @property string $name 任务标题
- * @property string $summary 备注
- * @property int $is_deleted 0未删除 1已删除
+ * @property int $user_id 用户 ID
+ * @property int $uid 原神 UID
+ * @property string $comment 备注
+ * @property int $is_deleted 是否删除
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
-class Task extends Model
+class YsPlayer extends NoCacheable
 {
     /**
      * The table associated with the model.
      */
-    protected ?string $table = 'task';
+    protected ?string $table = 'ys_player';
 
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'user_id', 'sort', 'name', 'summary', 'is_deleted', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'user_id', 'uid', 'comment', 'is_deleted', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'sort' => 'integer', 'is_deleted' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'uid' => 'integer', 'is_deleted' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

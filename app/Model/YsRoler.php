@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
+
+namespace App\Model;
+
+/**
+ * @property int $id
+ * @property int $user_id 用户 ID
+ * @property int $uid 原神 UID
+ * @property string $role 角色名
+ * @property string $role_img 角色头像
+ * @property int $level 角色等级
+ * @property array $role_data 原始数据
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
+class YsRoler extends NoCacheable
+{
+    /**
+     * The table associated with the model.
+     */
+    protected ?string $table = 'ys_roler';
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected array $fillable = ['id', 'user_id', 'uid', 'role', 'role_img', 'level', 'role_data', 'created_at', 'updated_at'];
+
+    /**
+     * The attributes that should be cast to native types.
+     */
+    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'uid' => 'integer', 'level' => 'integer', 'role_data' => 'json', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+}

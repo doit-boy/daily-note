@@ -14,7 +14,7 @@ namespace App\Model;
 
 /**
  * @property int $id
- * @property string $openid
+ * @property string $openid OpenID
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
