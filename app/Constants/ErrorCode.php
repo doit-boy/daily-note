@@ -55,6 +55,11 @@ enum ErrorCode: int implements ErrorCodeInterface
      */
     case TASK_ITEM_NOT_EXIST = 1200;
 
+    /**
+     * @Message("原神接口调用失败")
+     */
+    case YS_REQUEST_FAILED = 1300;
+
     public function getMessage(array $translate = null): string
     {
         $arguments = [];
