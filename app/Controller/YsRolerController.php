@@ -25,7 +25,7 @@ class YsRolerController extends Controller
     #[Inject]
     protected YsPlayerService $player;
 
-    #[SA\Post('/ys-player/create', summary: '添加我的 UID', tags: ['原神练度管理'])]
+    #[SA\Post('/ys-player/create', summary: '添加原神账号', tags: ['原神练度管理'])]
     #[SA\RequestBody(content: new SA\JsonContent(properties: [
         new SA\Property(property: 'uid', description: '原神 UID', type: 'integer', rules: 'required|integer'),
         new SA\Property(property: 'comment', description: '备注', type: 'string', rules: 'string'),
