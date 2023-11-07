@@ -26,5 +26,9 @@ class YsTest extends HttpTestCase
         $res = di()->get(YsClient::class)->getPlayerCard(258462145);
 
         $this->assertIsArray($res);
+
+        $res = di()->get(YsClient::class)->getSumComment($res['role_data']);
+
+        $this->assertIsArray($res);
     }
 }

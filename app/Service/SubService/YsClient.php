@@ -42,6 +42,23 @@ class YsClient extends Service
         return $result['result'];
     }
 
+    public function getSumComment(array $roleData)
+    {
+        $response = $this->client()->post('/ys/getSumComment.php', [
+            RequestOptions::JSON => [
+                'role_data' => $roleData,
+                'timestamp' => (int) (time() * 1000),
+                'authkey' => uniqid(),
+            ],
+        ]);
+
+        $result = Json::decode((string) $response->getBody());
+        if ($result['code'] !== 200) {
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips']);
+        }
+        return $result['result'];
+    }
+
     protected function unionid(): string
     {
         return Arr::random([
