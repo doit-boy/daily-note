@@ -36,7 +36,7 @@ class YsClient extends Service
         ]);
 
         $result = Json::decode((string) $response->getBody());
-        if ($result['code'] !== 0) {
+        if ($result['code'] !== 200) {
             throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips']);
         }
         return $result['result'];
@@ -49,12 +49,16 @@ class YsClient extends Service
             'VzzeqoLF9rOyyLs8oQpZHnwwGCP2',
             'hHm0meS5pavwWOUx4InT9Y5BHTj6',
             'VjY8wMgErI2wGbhcWWWYsoB8rhCd',
+            'pUGCq93woIQA91qNITseLPTVBkRQ',
+            'ACvWhGxuz316mHuFjjOyBYI57tkh',
+            'twf7YROSBoDkcslFGKWG4DyNjVUT',
+            'nTumBDQKiAmm2TQXi97W7EOPDj9G',
+            'dIAE6OBsoKgyh9QaQQiZiNX8tB20',
         ]);
     }
 
     protected function client()
     {
-        // https://api.lelaer.com/ys/getPlayerCard.php?uid=100168339&server=cn_gf01&unionid=ohAccuEfbjf4y28G4hVKhWb5IFD8&from=normal&timestamp=1699323561216&authkey=d1ed9355400a1bb2c3da47a7dc651f961
         return new Client([
             'base_uri' => 'https://api.lelaer.com',
             'timeout' => 5,
