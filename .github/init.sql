@@ -54,15 +54,25 @@ CREATE TABLE `ys_player` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `ys_roler` (
-`id` bigint unsigned NOT NULL AUTO_INCREMENT,
-`user_id` bigint NOT NULL DEFAULT '0' COMMENT '用户 ID',
-`uid` bigint NOT NULL DEFAULT '0' COMMENT '原神 UID',
-`role` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '角色名',
-`role_img` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '角色头像',
-`level` int unsigned NOT NULL DEFAULT '0' COMMENT '角色等级',
-`role_data` json DEFAULT NULL COMMENT '原始数据',
-`created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
-`updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
-PRIMARY KEY (`id`),
-UNIQUE KEY `UNIQUE_UID` (`user_id`,`uid`,`role`)
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` bigint NOT NULL DEFAULT '0' COMMENT '用户 ID',
+    `uid` bigint NOT NULL DEFAULT '0' COMMENT '原神 UID',
+    `role` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '角色名',
+    `role_img` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '角色头像',
+    `level` int unsigned NOT NULL DEFAULT '0' COMMENT '角色等级',
+    `role_data` json DEFAULT NULL COMMENT '原始数据',
+    `artifacts_sum_point` int unsigned NOT NULL DEFAULT '0' COMMENT '圣遗物分值',
+    `hp` int unsigned NOT NULL DEFAULT '0' COMMENT '生命值',
+    `attack` int unsigned NOT NULL DEFAULT '0' COMMENT '攻击力',
+    `defend` int unsigned NOT NULL DEFAULT '0' COMMENT '防御力',
+    `element` int unsigned NOT NULL DEFAULT '0' COMMENT '元素精通',
+    `crit` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '暴击率',
+    `crit_dmg` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '暴击伤害',
+    `recharge` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '充能效率',
+    `heal` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '属性伤害加成',
+    `raw_data` json DEFAULT NULL COMMENT '四维基础数据',
+    `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+    `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_UID` (`user_id`,`uid`,`role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

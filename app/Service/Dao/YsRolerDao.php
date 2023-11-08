@@ -27,7 +27,7 @@ class YsRolerDao extends Service
             ->first();
     }
 
-    public function create(YsPlayer $player, array $data): bool
+    public function create(YsPlayer $player, array $data, array $rawData): bool
     {
         if (empty($data['role'])) {
             return false;

@@ -44,7 +44,7 @@ class YsClient extends Service
         return $result['result'];
     }
 
-    public function getSumComment(array $roleData)
+    public function getSumComment(array $roleData): array
     {
         $response = $this->client()->post('/ys/getSumComment.php', [
             RequestOptions::JSON => [
@@ -59,6 +59,17 @@ class YsClient extends Service
             throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips']);
         }
         return $result['result'];
+    }
+
+    public function getMapSumComment(array $roleData): array
+    {
+        $res = $this->getSumComment($roleData);
+        $result = [];
+        foreach ($res as $re) {
+            $result[$re['role']] = $re;
+        }
+
+        return $result;
     }
 
     protected function unionid(): string

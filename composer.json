@@ -13,6 +13,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
+        "ext-bcmath": "*",
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
@@ -65,7 +66,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Kernel/Functions.php"
+            "app/Kernel/Functions.php",
+            "app/Kernel/Common/Functions.php"
         ]
     },
     "autoload-dev": {

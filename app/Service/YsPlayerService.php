@@ -39,8 +39,9 @@ class YsPlayerService extends Service
     {
         $player = $this->dao->create($uid, $comment, $userId);
         $card = $this->client->getPlayerCard($uid);
+        $map = $this->client->getMapSumComment($card['role_data']);
         foreach ($card['role_data'] ?? [] as $item) {
-            di()->get(YsRolerDao::class)->create($player, $item);
+            di()->get(YsRolerDao::class)->create($player, $item, $map[$item['role']]);
         }
 
         return true;
