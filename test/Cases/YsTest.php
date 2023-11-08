@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace HyperfTest\Cases;
 
-use App\Service\SubService\YsClient;
 use App\Service\UserAuth;
 use HyperfTest\HttpTestCase;
 
