@@ -12,8 +12,13 @@ declare(strict_types=1);
 
 namespace App\Service\Dao;
 
+use App\Model\YsRolerTarget;
 use Han\Utils\Service;
 
 class YsRolerTargetDao extends Service
 {
+    public function first(int $id): ?YsRolerTarget
+    {
+        return YsRolerTarget::findFromCache($id);
+    }
 }

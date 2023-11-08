@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Service\Dao;
 
+use App\Constants\ErrorCode;
+use App\Exception\BusinessException;
 use App\Model\YsPlayer;
 use App\Model\YsRoler;
 use Carbon\Carbon;
@@ -22,6 +24,16 @@ use function App\Kernel\Common\format_to_number;
 
 class YsRolerDao extends Service
 {
+    public function first(int $id, bool $throw = false): ?YsRoler
+    {
+        $model = YsRoler::findFromCache($id);
+        if (! $model && $throw) {
+            throw new BusinessException(ErrorCode::YS_ROLER_NOT_EXIST);
+        }
+
+        return $model;
+    }
+
     public function firstByUid(int $userId, int $uid, string $role): ?YsRoler
     {
         return YsRoler::query()->where('user_id', $userId)

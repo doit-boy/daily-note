@@ -28,6 +28,8 @@ namespace App\Model;
  */
 class YsRolerTarget extends Model
 {
+    public bool $incrementing = false;
+
     /**
      * The table associated with the model.
      */

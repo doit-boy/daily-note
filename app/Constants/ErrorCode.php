@@ -65,6 +65,11 @@ enum ErrorCode: int implements ErrorCodeInterface
      */
     case YS_PLAYER_NOT_EXIST = 1301;
 
+    /**
+     * @Message("原神角色不存在")
+     */
+    case YS_ROLER_NOT_EXIST = 1401;
+
     public function getMessage(array $translate = null): string
     {
         $arguments = [];
