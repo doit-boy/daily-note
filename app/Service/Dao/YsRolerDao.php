@@ -17,6 +17,8 @@ use App\Model\YsRoler;
 use Han\Utils\Service;
 use Hyperf\Database\Model\Collection;
 
+use function App\Kernel\Common\format_to_number;
+
 class YsRolerDao extends Service
 {
     public function firstByUid(int $userId, int $uid, string $role): ?YsRoler
@@ -44,6 +46,16 @@ class YsRolerDao extends Service
         $model->role_img = $data['role_img'] ?? '';
         $model->level = $data['level'] ?? 0;
         $model->role_data = $data;
+        $model->artifacts_sum_point = $rawData['artifacts_sum_point2'];
+        $model->hp = format_to_number($rawData['hp']);
+        $model->attack = format_to_number($rawData['attack']);
+        $model->defend = format_to_number($rawData['defend']);
+        $model->element = format_to_number($rawData['element']);
+        $model->crit = format_to_number($rawData['crit']);
+        $model->crit_dmg = format_to_number($rawData['crit_dmg']);
+        $model->recharge = format_to_number($rawData['recharge']);
+        $model->heal = format_to_number($rawData['heal']);
+        $model->raw_data = $rawData;
         return $model->save();
     }
 
