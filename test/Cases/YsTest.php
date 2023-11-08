@@ -44,4 +44,13 @@ class YsTest extends HttpTestCase
 
         $this->assertSame(0, $res['code']);
     }
+
+    public function testYsPlayerIndex()
+    {
+        $res = $this->get('/ys-player', [], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
+    }
 }

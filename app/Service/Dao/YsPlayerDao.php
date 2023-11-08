@@ -42,11 +42,11 @@ class YsPlayerDao extends Service
     }
 
     /**
-     * @return Collection<int, YsPlayer>
+     * @return array{int, Collection<int, YsPlayer>}
      */
-    public function findByUserId(int $userId, int $offset = 0, int $limit = 10): Collection
+    public function findByUserId(int $userId, int $offset = 0, int $limit = 10): array
     {
-        $query = YsPlayer::query()->where('user_id');
+        $query = YsPlayer::query()->where('user_id', $userId)->orderBy('id', 'desc');
 
         return $this->factory->model->pagination($query, $offset, $limit);
     }
