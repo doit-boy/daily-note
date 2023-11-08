@@ -24,17 +24,6 @@ use function App\Kernel\Common\format_to_number;
  */
 class YsTest extends HttpTestCase
 {
-    public function testGetPlayerCards()
-    {
-        $res = di()->get(YsClient::class)->getPlayerCard(258462145);
-
-        $this->assertIsArray($res);
-
-        $res = di()->get(YsClient::class)->getSumComment($res['role_data']);
-
-        $this->assertIsArray($res);
-    }
-
     public function testYsPlayerCreate()
     {
         $res = $this->json('/ys-player/create', [

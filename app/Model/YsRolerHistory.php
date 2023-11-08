@@ -15,6 +15,7 @@ namespace App\Model;
 /**
  * @property int $id
  * @property int $roler_id 原神角色ID
+ * @property string $dt 日期
  * @property int $level 角色等级
  * @property int $hp 生命值
  * @property int $attack 攻击力
@@ -37,7 +38,7 @@ class YsRolerHistory extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'roler_id', 'level', 'hp', 'attack', 'defend', 'element', 'crit', 'crit_dmg', 'recharge', 'heal', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'roler_id', 'dt', 'level', 'hp', 'attack', 'defend', 'element', 'crit', 'crit_dmg', 'recharge', 'heal', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.

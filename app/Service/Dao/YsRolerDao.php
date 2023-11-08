@@ -14,6 +14,7 @@ namespace App\Service\Dao;
 
 use App\Model\YsPlayer;
 use App\Model\YsRoler;
+use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\Database\Model\Collection;
 
@@ -29,7 +30,7 @@ class YsRolerDao extends Service
             ->first();
     }
 
-    public function create(YsPlayer $player, array $data, array $rawData): bool
+    public function create(YsPlayer $player, array $data, array $rawData): YsRoler
     {
         if (empty($data['role'])) {
             return false;
@@ -56,7 +57,11 @@ class YsRolerDao extends Service
         $model->recharge = format_to_number($rawData['recharge']);
         $model->heal = format_to_number($rawData['heal']);
         $model->raw_data = $rawData;
-        return $model->save();
+        $model->save();
+
+        di()->get(YsRolerHistoryDao::class)->create($model, Carbon::now());
+
+        return $model;
     }
 
     /**

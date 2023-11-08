@@ -80,6 +80,7 @@ CREATE TABLE `ys_roler` (
 CREATE TABLE `ys_roler_history` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,
     `roler_id` bigint NOT NULL DEFAULT '0' COMMENT '原神角色ID',
+    `dt` date NOT NULL COMMENT '日期',
     `level` int unsigned NOT NULL DEFAULT '0' COMMENT '角色等级',
     `hp` int unsigned NOT NULL DEFAULT '0' COMMENT '生命值',
     `attack` int unsigned NOT NULL DEFAULT '0' COMMENT '攻击力',
@@ -92,7 +93,7 @@ CREATE TABLE `ys_roler_history` (
     `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
     `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
     PRIMARY KEY (`id`),
-    KEY `INDEX_ROLER_ID` (`roler_id`)
+    KEY `INDEX_DT` (`roler_id`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='原神角色历史';
 
 CREATE TABLE `ys_roler_target` (
