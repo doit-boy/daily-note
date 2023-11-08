@@ -60,18 +60,16 @@ class YsRolerDao extends Service
         $model->level = $data['level'] ?? 0;
         $model->role_data = $data;
         $model->artifacts_sum_point = $rawData['artifacts_sum_point2'];
-        $model->hp = format_to_number($rawData['hp']);
-        $model->attack = format_to_number($rawData['attack']);
-        $model->defend = format_to_number($rawData['defend']);
-        $model->element = format_to_number($rawData['element']);
-        $model->crit = format_to_number($rawData['crit']);
-        $model->crit_dmg = format_to_number($rawData['crit_dmg']);
-        $model->recharge = format_to_number($rawData['recharge']);
-        $model->heal = format_to_number($rawData['heal']);
+        $columns = ['hp', 'attack', 'defend', 'element', 'crit', 'crit_dmg', 'recharge', 'heal'];
+        foreach ($columns as $column) {
+            $model->setNumber($column, format_to_number($rawData[$column]));
+        }
         $model->raw_data = $rawData;
         $model->save();
 
-        di()->get(YsRolerHistoryDao::class)->create($model, Carbon::now());
+        if ($model->wasChanged($columns)) {
+            di()->get(YsRolerHistoryDao::class)->create($model, Carbon::now());
+        }
 
         return $model;
     }

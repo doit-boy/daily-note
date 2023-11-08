@@ -49,4 +49,13 @@ class YsRoler extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'uid' => 'integer', 'level' => 'integer', 'role_data' => 'json', 'raw_data' => 'json', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'artifacts_sum_point' => 'integer', 'hp' => 'integer', 'attack' => 'integer', 'defend' => 'integer', 'element' => 'integer'];
+
+    public function setNumber(string $key, mixed $value)
+    {
+        if ($this->{$key} == $value) {
+            return $this;
+        }
+
+        return parent::setAttribute($key, $value);
+    }
 }
