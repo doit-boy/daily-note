@@ -16,6 +16,8 @@ use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
 use Hyperf\Codec\Json;
@@ -84,6 +86,13 @@ class YsClient extends Service
         return $result;
     }
 
+    public function logMiddleware()
+    {
+        $formatter = new MessageFormatter(MessageFormatter::DEBUG);
+
+        return Middleware::log($this->logger, $formatter);
+    }
+
     protected function unionid(): string
     {
         return Arr::random([
@@ -102,6 +111,7 @@ class YsClient extends Service
     protected function client()
     {
         $handler = HandlerStack::create();
+        $handler->push($this->logMiddleware(), 'log');
         $handler->push($this->middleware->getMiddleware(), 'retry');
         return new Client([
             'handler' => $handler,
