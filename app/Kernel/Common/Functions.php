@@ -17,14 +17,10 @@ use App\Exception\BusinessException;
 
 function format_to_number(string $value): string
 {
-    preg_match('/\\d+(.\\d+)?%?/', $value, $match);
+    preg_match('/\\d+(.\\d+)?/', $value, $match);
     $result = $match[0] ?? null;
     if ($result === null) {
         throw new BusinessException(ErrorCode::SERVER_ERROR, '不合规的数字');
-    }
-
-    if (str_ends_with($result, '%')) {
-        $result = bcdiv(trim($result, '%'), '100', 3);
     }
 
     return $result;

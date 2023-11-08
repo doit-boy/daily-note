@@ -59,9 +59,29 @@ class YsTest extends HttpTestCase
         $this->assertSame('688', format_to_number('攻击力：688'));
         $this->assertSame('506', format_to_number('防御力：506'));
         $this->assertSame('35', format_to_number('元素精通：35'));
-        $this->assertSame('0.120', format_to_number('暴击率：12%'));
-        $this->assertSame('0.542', format_to_number('暴击伤害：54.2%'));
-        $this->assertSame('1.066', format_to_number('元素充能效率：106.6%'));
-        $this->assertSame('0.000', format_to_number('岩伤加成：0%'));
+        $this->assertEquals('12', format_to_number('暴击率：12%'));
+        $this->assertEquals('54.2', format_to_number('暴击伤害：54.2%'));
+        $this->assertEquals('106.6', format_to_number('元素充能效率：106.6%'));
+        $this->assertEquals('0', format_to_number('岩伤加成：0%'));
+    }
+
+    public function testYsRolerSaveTarget()
+    {
+        $res = $this->json('/ys-roler/target', [
+            'roler_id' => 1,
+            'level' => 50,
+            'hp' => 9000,
+            'attack' => 700,
+            'defend' => 506,
+            'element' => 0,
+            'crit' => 50,
+            'crit_dmg' => 100,
+            'recharge' => 0,
+            'heal' => 0,
+        ], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
     }
 }
