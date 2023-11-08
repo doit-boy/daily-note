@@ -76,3 +76,37 @@ CREATE TABLE `ys_roler` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `UNIQUE_UID` (`user_id`,`uid`,`role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `ys_roler_history` (
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+    `roler_id` bigint NOT NULL DEFAULT '0' COMMENT '原神角色ID',
+    `level` int unsigned NOT NULL DEFAULT '0' COMMENT '角色等级',
+    `hp` int unsigned NOT NULL DEFAULT '0' COMMENT '生命值',
+    `attack` int unsigned NOT NULL DEFAULT '0' COMMENT '攻击力',
+    `defend` int unsigned NOT NULL DEFAULT '0' COMMENT '防御力',
+    `element` int unsigned NOT NULL DEFAULT '0' COMMENT '元素精通',
+    `crit` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '暴击率',
+    `crit_dmg` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '暴击伤害',
+    `recharge` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '充能效率',
+    `heal` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '属性伤害加成',
+    `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+    `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+    PRIMARY KEY (`id`),
+    KEY `INDEX_ROLER_ID` (`roler_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='原神角色历史';
+
+CREATE TABLE `ys_roler_target` (
+   `id` bigint unsigned NOT NULL COMMENT '原神角色ID',
+   `level` int unsigned NOT NULL DEFAULT '0' COMMENT '角色等级',
+   `hp` int unsigned NOT NULL DEFAULT '0' COMMENT '生命值',
+   `attack` int unsigned NOT NULL DEFAULT '0' COMMENT '攻击力',
+   `defend` int unsigned NOT NULL DEFAULT '0' COMMENT '防御力',
+   `element` int unsigned NOT NULL DEFAULT '0' COMMENT '元素精通',
+   `crit` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '暴击率',
+   `crit_dmg` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '暴击伤害',
+   `recharge` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '充能效率',
+   `heal` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '属性伤害加成',
+   `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+   `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='原神角色目标';

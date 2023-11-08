@@ -29,7 +29,7 @@ namespace App\Model;
  * @property string $crit_dmg 暴击伤害
  * @property string $recharge 充能效率
  * @property string $heal 属性伤害加成
- * @property string $raw_data 四维基础数据
+ * @property array $raw_data 四维基础数据
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
