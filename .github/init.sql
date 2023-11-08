@@ -71,11 +71,13 @@ CREATE TABLE `ys_roler` (
     `recharge` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '充能效率',
     `heal` decimal(6,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '属性伤害加成',
     `raw_data` json DEFAULT NULL COMMENT '四维基础数据',
+    `is_listen` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否监听四维变化',
+    `last_listen_time` int unsigned NOT NULL DEFAULT '0' COMMENT '上次监听时间',
     `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
     `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
     PRIMARY KEY (`id`),
     UNIQUE KEY `UNIQUE_UID` (`user_id`,`uid`,`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='原神角色';
 
 CREATE TABLE `ys_roler_history` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,

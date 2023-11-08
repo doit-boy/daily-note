@@ -30,6 +30,8 @@ namespace App\Model;
  * @property string $recharge 充能效率
  * @property string $heal 属性伤害加成
  * @property array $raw_data 四维基础数据
+ * @property int $is_listen 是否监听四维变化
+ * @property int $last_listen_time 上次监听时间
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -43,10 +45,10 @@ class YsRoler extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'user_id', 'uid', 'role', 'role_img', 'level', 'role_data', 'artifacts_sum_point', 'hp', 'attack', 'defend', 'element', 'crit', 'crit_dmg', 'recharge', 'heal', 'raw_data', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'user_id', 'uid', 'role', 'role_img', 'level', 'role_data', 'artifacts_sum_point', 'hp', 'attack', 'defend', 'element', 'crit', 'crit_dmg', 'recharge', 'heal', 'raw_data', 'is_listen', 'last_listen_time', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'uid' => 'integer', 'level' => 'integer', 'role_data' => 'json', 'raw_data' => 'json', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'artifacts_sum_point' => 'integer', 'hp' => 'integer', 'attack' => 'integer', 'defend' => 'integer', 'element' => 'integer'];
+    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'uid' => 'integer', 'level' => 'integer', 'role_data' => 'json', 'raw_data' => 'json', 'created_at' => 'datetime', 'updated_at' => 'datetime', 'artifacts_sum_point' => 'integer', 'hp' => 'integer', 'attack' => 'integer', 'defend' => 'integer', 'element' => 'integer', 'is_listen' => 'integer', 'last_listen_time' => 'integer'];
 }
