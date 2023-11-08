@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Schema\YsPlayerListSchema;
 use App\Service\Dao\YsPlayerDao;
 use App\Service\Dao\YsRolerDao;
+use App\Service\Formatter\YsPlayerFormatter;
 use App\Service\SubService\YsClient;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
@@ -26,6 +28,9 @@ class YsPlayerService extends Service
     #[Inject]
     protected YsClient $client;
 
+    #[Inject]
+    protected YsPlayerFormatter $formatter;
+
     public function create(int $uid, string $comment, int $userId): bool
     {
         $player = $this->dao->create($uid, $comment, $userId);
@@ -35,5 +40,14 @@ class YsPlayerService extends Service
         }
 
         return true;
+    }
+
+    public function players(int $userId, int $offset, int $limit): YsPlayerListSchema
+    {
+        [$count, $models] = $this->dao->findByUserId($userId, $offset, $limit);
+
+        $result = $this->formatter->formatList($models);
+
+        return new YsPlayerListSchema($count, $result);
     }
 }

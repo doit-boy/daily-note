@@ -15,6 +15,7 @@ namespace App\Service\Dao;
 use App\Constants\Status;
 use App\Model\YsPlayer;
 use Han\Utils\Service;
+use Hyperf\Database\Model\Collection;
 
 class YsPlayerDao extends Service
 {
@@ -38,5 +39,15 @@ class YsPlayerDao extends Service
         $model->is_deleted = Status::NO;
         $model->save();
         return $model;
+    }
+
+    /**
+     * @return Collection<int, YsPlayer>
+     */
+    public function findByUserId(int $userId, int $offset = 0, int $limit = 10): Collection
+    {
+        $query = YsPlayer::query()->where('user_id');
+
+        return $this->factory->model->pagination($query, $offset, $limit);
     }
 }

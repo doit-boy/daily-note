@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Request\PageRequest;
 use App\Schema\SavedSchema;
 use App\Service\UserAuth;
 use App\Service\YsPlayerService;
@@ -40,5 +41,18 @@ class YsRolerController extends Controller
         $result = $this->player->create($uid, $comment, $userId);
 
         return $this->response->success(new SavedSchema($result));
+    }
+
+    #[SA\Get('/ys-player', summary: '原神账号列表', tags: ['原神练度管理'])]
+    #[SA\QueryParameter(parameter: 'offset', description: '偏移量', rules: 'integer')]
+    #[SA\QueryParameter(parameter: 'limit', description: '单页条数', rules: 'integer')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/YsPlayerListSchema'))]
+    public function players(SwaggerRequest $request, PageRequest $page)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->player->players($userId, $page->offset(), $page->limit());
+
+        return $this->response->success($result);
     }
 }
