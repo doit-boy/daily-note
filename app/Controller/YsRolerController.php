@@ -99,15 +99,15 @@ class YsRolerController extends Controller
     #[SA\Post('/ys-roler/target', summary: '设置角色目标', tags: ['原神练度管理'])]
     #[SA\RequestBody(content: new SA\JsonContent(properties: [
         new SA\Property(property: 'id', description: '原神角色 ID', type: 'integer', rules: 'required|integer'),
-        new SA\Property(property: 'level', description: '等级', type: 'integer', rules: 'required|integer'),
-        new SA\Property(property: 'hp', description: '生命值', type: 'integer', rules: 'required|integer'),
-        new SA\Property(property: 'attack', description: '攻击力', type: 'integer', rules: 'required|integer'),
-        new SA\Property(property: 'defend', description: '防御力', type: 'integer', rules: 'required|integer'),
-        new SA\Property(property: 'element', description: '元素精通', type: 'integer', rules: 'required|integer'),
-        new SA\Property(property: 'crit', description: '暴击率', type: 'float', rules: 'required|float'),
-        new SA\Property(property: 'crit_dmg', description: '暴击伤害', type: 'float', rules: 'required|float'),
-        new SA\Property(property: 'recharge', description: '充能效率', type: 'float', rules: 'required|float'),
-        new SA\Property(property: 'heal', description: '属性伤害加成', type: 'float', rules: 'required|float'),
+        new SA\Property(property: 'level', description: '等级', type: 'integer', rules: 'integer'),
+        new SA\Property(property: 'hp', description: '生命值', type: 'integer', rules: 'integer'),
+        new SA\Property(property: 'attack', description: '攻击力', type: 'integer', rules: 'integer'),
+        new SA\Property(property: 'defend', description: '防御力', type: 'integer', rules: 'integer'),
+        new SA\Property(property: 'element', description: '元素精通', type: 'integer', rules: 'integer'),
+        new SA\Property(property: 'crit', description: '暴击率', type: 'float', rules: 'float'),
+        new SA\Property(property: 'crit_dmg', description: '暴击伤害', type: 'float', rules: 'float'),
+        new SA\Property(property: 'recharge', description: '充能效率', type: 'float', rules: 'float'),
+        new SA\Property(property: 'heal', description: '属性伤害加成', type: 'float', rules: 'float'),
     ]))]
     #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
     public function saveTarget(SwaggerRequest $request)

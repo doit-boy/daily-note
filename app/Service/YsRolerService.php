@@ -57,15 +57,15 @@ class YsRolerService extends Service
             $target->id = $roler->id;
         }
 
-        $target->level = $input['level'];
-        $target->hp = $input['hp'];
-        $target->attack = $input['attack'];
-        $target->defend = $input['defend'];
-        $target->element = $input['element'];
-        $target->crit = $input['crit'];
-        $target->crit_dmg = $input['crit_dmg'];
-        $target->recharge = $input['recharge'];
-        $target->heal = $input['heal'];
+        $target->level = $input['level'] ?? 0;
+        $target->hp = $input['hp'] ?? 0;
+        $target->attack = $input['attack'] ?? 0;
+        $target->defend = $input['defend'] ?? 0;
+        $target->element = $input['element'] ?? 0;
+        $target->crit = $input['crit'] ?? 0;
+        $target->crit_dmg = $input['crit_dmg'] ?? 0;
+        $target->recharge = $input['recharge'] ?? 0;
+        $target->heal = $input['heal'] ?? 0;
         return $target->save();
     }
 
