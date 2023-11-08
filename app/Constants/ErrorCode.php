@@ -60,6 +60,11 @@ enum ErrorCode: int implements ErrorCodeInterface
      */
     case YS_REQUEST_FAILED = 1300;
 
+    /**
+     * @Message("原神账号不存在")
+     */
+    case YS_PLAYER_NOT_EXIST = 1301;
+
     public function getMessage(array $translate = null): string
     {
         $arguments = [];

@@ -55,4 +55,16 @@ class YsRolerController extends Controller
 
         return $this->response->success($result);
     }
+
+    #[SA\Get('/ys-player/{id:\d+}', summary: '原神账号详情', tags: ['原神练度管理'])]
+    #[SA\PathParameter(name: 'id', description: '原神账号 ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/YsPlayerListSchema'))]
+    public function player(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->player->player($id, $userId);
+
+        return $this->response->success($result);
+    }
 }

@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Constants\ErrorCode;
+use App\Exception\BusinessException;
 use App\Schema\YsPlayerListSchema;
+use App\Schema\YsPlayerSchema;
 use App\Service\Dao\YsPlayerDao;
 use App\Service\Dao\YsRolerDao;
 use App\Service\Formatter\YsPlayerFormatter;
+use App\Service\Formatter\YsRolerFormatter;
 use App\Service\SubService\YsClient;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
@@ -49,5 +53,20 @@ class YsPlayerService extends Service
         $result = $this->formatter->formatList($models);
 
         return new YsPlayerListSchema($count, $result);
+    }
+
+    public function player(int $id, int $userId): YsPlayerSchema
+    {
+        $model = $this->dao->first($id, true);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        $rolers = di()->get(YsRolerDao::class)->findByPlayer($model);
+
+        return new YsPlayerSchema(
+            $model,
+            di()->get(YsRolerFormatter::class)->formatList($rolers)
+        );
     }
 }

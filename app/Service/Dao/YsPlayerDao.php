@@ -12,13 +12,25 @@ declare(strict_types=1);
 
 namespace App\Service\Dao;
 
+use App\Constants\ErrorCode;
 use App\Constants\Status;
+use App\Exception\BusinessException;
 use App\Model\YsPlayer;
 use Han\Utils\Service;
 use Hyperf\Database\Model\Collection;
 
 class YsPlayerDao extends Service
 {
+    public function first(int $id, bool $throw = false): ?YsPlayer
+    {
+        $model = YsPlayer::findFromCache($id);
+        if (! $model && $throw) {
+            throw new BusinessException(ErrorCode::YS_PLAYER_NOT_EXIST);
+        }
+
+        return $model;
+    }
+
     public function firstByUid(int $userId, int $uid): ?YsPlayer
     {
         return YsPlayer::query()->where('user_id', $userId)

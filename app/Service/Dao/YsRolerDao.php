@@ -15,6 +15,7 @@ namespace App\Service\Dao;
 use App\Model\YsPlayer;
 use App\Model\YsRoler;
 use Han\Utils\Service;
+use Hyperf\Database\Model\Collection;
 
 class YsRolerDao extends Service
 {
@@ -44,5 +45,16 @@ class YsRolerDao extends Service
         $model->level = $data['level'] ?? 0;
         $model->role_data = $data;
         return $model->save();
+    }
+
+    /**
+     * @return Collection<int, YsRoler>
+     */
+    public function findByPlayer(YsPlayer $player): Collection
+    {
+        return YsRoler::query()->where('user_id', $player->user_id)
+            ->where('uid', $player->uid)
+            ->orderBy('level', 'desc')
+            ->get();
     }
 }

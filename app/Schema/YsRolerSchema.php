@@ -12,14 +12,13 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\YsPlayer;
-use Hyperf\Swagger\Annotation\Items;
+use App\Model\YsRoler;
 use Hyperf\Swagger\Annotation\Property;
 use Hyperf\Swagger\Annotation\Schema;
 use JsonSerializable;
 
-#[Schema(title: '原神账号详情')]
-class YsPlayerSchema implements JsonSerializable
+#[Schema(title: '原神角色详情')]
+class YsRolerSchema implements JsonSerializable
 {
     #[Property(property: 'id', title: '', type: 'int')]
     public ?int $id;
@@ -30,19 +29,23 @@ class YsPlayerSchema implements JsonSerializable
     #[Property(property: 'uid', title: '原神 UID', type: 'int')]
     public ?int $uid;
 
-    #[Property(property: 'comment', title: '备注', type: 'string')]
-    public ?string $comment;
+    #[Property(property: 'role', title: '角色名', type: 'string')]
+    public ?string $role;
 
-    #[Property(property: 'rolers', title: '角色列表', type: 'array', items: new Items(ref: '#/components/schemas/YsRolerSchema'))]
-    public array $rolers = [];
+    #[Property(property: 'role_img', title: '角色头像', type: 'string')]
+    public ?string $roleImg;
 
-    public function __construct(YsPlayer $model, array $rolers = [])
+    #[Property(property: 'level', title: '角色等级', type: 'int')]
+    public ?int $level;
+
+    public function __construct(YsRoler $model)
     {
         $this->id = $model->id;
         $this->userId = $model->user_id;
         $this->uid = $model->uid;
-        $this->comment = $model->comment;
-        $this->rolers = $rolers;
+        $this->role = $model->role;
+        $this->roleImg = $model->role_img;
+        $this->level = $model->level;
     }
 
     public function jsonSerialize(): mixed
@@ -51,8 +54,9 @@ class YsPlayerSchema implements JsonSerializable
             'id' => $this->id,
             'user_id' => $this->userId,
             'uid' => $this->uid,
-            'comment' => $this->comment,
-            'rolers' => $this->rolers,
+            'role' => $this->role,
+            'role_img' => $this->roleImg,
+            'level' => $this->level,
         ];
     }
 }
