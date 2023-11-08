@@ -69,7 +69,7 @@ class YsRolerService extends Service
         return $target->save();
     }
 
-    public function target(int $id, int $userId): YsRolerSchema
+    public function roler(int $id, int $userId): YsRolerSchema
     {
         $model = $this->dao->first($id);
         if ($model->user_id !== $userId) {

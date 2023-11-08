@@ -84,4 +84,13 @@ class YsTest extends HttpTestCase
 
         $this->assertSame(0, $res['code']);
     }
+
+    public function testYsRolerInfo()
+    {
+        $res = $this->get('/ys-roler/1', [], [
+            UserAuth::X_TOKEN => $this->token,
+        ]);
+
+        $this->assertSame(0, $res['code']);
+    }
 }

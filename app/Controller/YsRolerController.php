@@ -84,14 +84,14 @@ class YsRolerController extends Controller
         return $this->response->success(new SavedSchema($result));
     }
 
-    #[SA\Get('/ys-roler/{id:\d+}/target', summary: '查看角色目标', tags: ['原神练度管理'])]
+    #[SA\Get('/ys-roler/{id:\d+}', summary: '查看角色详情', tags: ['原神练度管理'])]
     #[SA\PathParameter(name: 'id', description: '原神账号 ID')]
     #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/YsRolerSchema'))]
-    public function target(int $id)
+    public function roler(int $id)
     {
         $userId = UserAuth::instance()->build()->getId();
 
-        $result = $this->roler->target($id, $userId);
+        $result = $this->roler->roler($id, $userId);
 
         return $this->response->success($result);
     }
