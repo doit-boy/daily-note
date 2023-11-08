@@ -62,4 +62,13 @@ class YsPlayerDao extends Service
 
         return $this->factory->model->pagination($query, $offset, $limit);
     }
+
+    /**
+     * @return Collection<int, YsPlayer>
+     */
+    public function findListenPlayers(): Collection
+    {
+        return YsPlayer::query()->where('listen_time', '<=', time() - 86400)
+            ->get();
+    }
 }

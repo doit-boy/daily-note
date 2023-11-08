@@ -47,11 +47,13 @@ CREATE TABLE `ys_player` (
  `uid` bigint unsigned NOT NULL DEFAULT '0' COMMENT '原神 UID',
  `comment` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '备注',
  `is_deleted` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否删除',
+ `listen_time` int unsigned NOT NULL DEFAULT '0' COMMENT '上次监听时间',
  `created_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
  `updated_at` datetime NOT NULL DEFAULT '2023-01-01 00:00:00',
  PRIMARY KEY (`id`),
- UNIQUE KEY `UNIQUE_UID` (`user_id`,`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+ UNIQUE KEY `UNIQUE_UID` (`user_id`,`uid`),
+ KEY `INDEX_LISTEN_TIME` (`listen_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='原神账号';
 
 CREATE TABLE `ys_roler` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Crontab;
 
+use App\Service\YsPlayerService;
 use Hyperf\Crontab\Annotation\Crontab;
 
 class YsCrontab
@@ -19,6 +20,6 @@ class YsCrontab
     #[Crontab(rule: '* * * * *')]
     public function listenRoler()
     {
-        var_dump(1);
+        di()->get(YsPlayerService::class)->syncPlayers();
     }
 }

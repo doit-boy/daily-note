@@ -14,4 +14,5 @@ return [
     Hyperf\Server\Listener\AfterWorkerStartListener::class => App\Kernel\Http\WorkerStartListener::class,
     Psr\EventDispatcher\EventDispatcherInterface::class => App\Kernel\Event\EventDispatcherFactory::class,
     EasyWeChat\MiniApp\Application::class => App\Service\Factory\WeChatFactory::class,
+    Hyperf\Crontab\Strategy\StrategyInterface::class => Hyperf\Crontab\Strategy\CoroutineStrategy::class,
 ];

@@ -23,6 +23,7 @@ use App\Service\Formatter\YsRolerFormatter;
 use App\Service\SubService\YsClient;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
+use Throwable;
 
 class YsPlayerService extends Service
 {
@@ -69,5 +70,22 @@ class YsPlayerService extends Service
             $model,
             di()->get(YsRolerFormatter::class)->formatList($rolers)
         );
+    }
+
+    public function syncPlayers(): void
+    {
+        $models = $this->dao->findListenPlayers();
+        foreach ($models as $model) {
+            try {
+                $card = $this->client->getPlayerCard($model->uid);
+                $map = $this->client->getMapSumComment($card['role_data']);
+                foreach ($card['role_data'] ?? [] as $item) {
+                    di()->get(YsRolerDao::class)->create($model, $item, $map[$item['role']]);
+                }
+            } catch (Throwable $exception) {
+                $this->logger->error((string) $exception);
+                continue;
+            }
+        }
     }
 }
