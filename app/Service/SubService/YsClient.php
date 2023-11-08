@@ -53,7 +53,7 @@ class YsClient extends Service
 
         $result = Json::decode((string) $response->getBody());
         if ($result['code'] !== 200) {
-            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result'] ?? '接口调用失败');
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $this->getMessage($result));
         }
         return $result['result'];
     }
@@ -70,7 +70,7 @@ class YsClient extends Service
 
         $result = Json::decode((string) $response->getBody());
         if ($result['code'] !== 200) {
-            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result'] ?? '接口调用失败');
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $this->getMessage($result));
         }
         return $result['result'];
     }
@@ -91,6 +91,16 @@ class YsClient extends Service
         $formatter = new MessageFormatter(MessageFormatter::DEBUG);
 
         return Middleware::log($this->logger, $formatter);
+    }
+
+    protected function getMessage(array $result): string
+    {
+        $message = $result['tips'] ?? null;
+        if (! $message) {
+            $message = $result['result'] ?? null;
+        }
+
+        return $message ?: '接口调用失败';
     }
 
     protected function unionid(): string
