@@ -66,6 +66,11 @@ enum ErrorCode: int implements ErrorCodeInterface
     case YS_PLAYER_NOT_EXIST = 1301;
 
     /**
+     * @Message("原神账号已超过上限，不允许再添加账号")
+     */
+    case YS_PLAYER_ALREADY_FULL = 1302;
+
+    /**
      * @Message("原神角色不存在")
      */
     case YS_ROLER_NOT_EXIST = 1401;

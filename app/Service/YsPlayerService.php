@@ -39,6 +39,11 @@ class YsPlayerService extends Service
 
     public function create(int $uid, string $comment, int $userId): bool
     {
+        $count = $this->dao->count($userId);
+        if ($count >= 3) {
+            throw new BusinessException(ErrorCode::YS_PLAYER_ALREADY_FULL);
+        }
+
         $player = $this->dao->create($uid, $comment, $userId);
         $card = $this->client->getPlayerCard($uid);
         $map = $this->client->getMapSumComment($card['role_data']);

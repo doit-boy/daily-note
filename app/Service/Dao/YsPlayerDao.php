@@ -38,6 +38,11 @@ class YsPlayerDao extends Service
             ->first();
     }
 
+    public function count(int $userId): int
+    {
+        return YsPlayer::query()->where('user_id', $userId)->where('status', Status::NO)->count();
+    }
+
     public function create(int $uid, string $comment, int $userId): YsPlayer
     {
         $model = $this->firstByUid($userId, $uid);
@@ -68,7 +73,10 @@ class YsPlayerDao extends Service
      */
     public function findListenPlayers(): Collection
     {
-        return YsPlayer::query()->where('listen_time', '<=', time() - 86400)
+        return YsPlayer::query()
+            ->where('listen_time', '<=', time() - 86400)
+            ->where('is_deleted', Status::NO)
+            ->limit(100)
             ->get();
     }
 }
