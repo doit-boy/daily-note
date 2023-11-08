@@ -45,9 +45,9 @@ class YsPlayerService extends Service
             throw new BusinessException(ErrorCode::YS_PLAYER_ALREADY_FULL);
         }
 
-        $player = $this->dao->create($uid, $comment, $userId);
         $card = $this->client->getPlayerCard($uid);
         $map = $this->client->getMapSumComment($card['role_data']);
+        $player = $this->dao->create($uid, $comment, $userId);
         foreach ($card['role_data'] ?? [] as $item) {
             di()->get(YsRolerDao::class)->create($player, $item, $map[$item['role']]);
         }

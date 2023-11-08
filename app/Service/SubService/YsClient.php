@@ -15,14 +15,26 @@ namespace App\Service\SubService;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
 use Hyperf\Codec\Json;
 use Hyperf\Collection\Arr;
+use Hyperf\Guzzle\RetryMiddleware;
 use JetBrains\PhpStorm\ArrayShape;
+use Psr\Container\ContainerInterface;
 
 class YsClient extends Service
 {
+    protected RetryMiddleware $middleware;
+
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+
+        $this->middleware = new RetryMiddleware(5, 200);
+    }
+
     #[ArrayShape(['role_data' => [['role' => 'string', 'role_img' => 'string', 'level' => 'int']]])]
     public function getPlayerCard(int $uid): array
     {
@@ -39,7 +51,7 @@ class YsClient extends Service
 
         $result = Json::decode((string) $response->getBody());
         if ($result['code'] !== 200) {
-            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result']);
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result'] ?? '接口调用失败');
         }
         return $result['result'];
     }
@@ -56,7 +68,7 @@ class YsClient extends Service
 
         $result = Json::decode((string) $response->getBody());
         if ($result['code'] !== 200) {
-            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result']);
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result'] ?? '接口调用失败');
         }
         return $result['result'];
     }
@@ -89,7 +101,10 @@ class YsClient extends Service
 
     protected function client()
     {
+        $handler = HandlerStack::create();
+        $handler->push($this->middleware->getMiddleware(), 'retry');
         return new Client([
+            'handler' => $handler,
             'base_uri' => 'https://api.lelaer.com',
             'timeout' => 5,
         ]);
