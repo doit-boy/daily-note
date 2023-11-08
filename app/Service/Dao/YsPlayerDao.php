@@ -40,7 +40,7 @@ class YsPlayerDao extends Service
 
     public function count(int $userId): int
     {
-        return YsPlayer::query()->where('user_id', $userId)->where('status', Status::NO)->count();
+        return YsPlayer::query()->where('user_id', $userId)->where('is_deleted', Status::NO)->count();
     }
 
     public function create(int $uid, string $comment, int $userId): YsPlayer
@@ -63,7 +63,9 @@ class YsPlayerDao extends Service
      */
     public function findByUserId(int $userId, int $offset = 0, int $limit = 10): array
     {
-        $query = YsPlayer::query()->where('user_id', $userId)->orderBy('id', 'desc');
+        $query = YsPlayer::query()->where('user_id', $userId)
+            ->where('is_deleted', Status::NO)
+            ->orderBy('id', 'desc');
 
         return $this->factory->model->pagination($query, $offset, $limit);
     }

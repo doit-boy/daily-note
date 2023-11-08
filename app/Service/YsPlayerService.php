@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Constants\ErrorCode;
+use App\Constants\Status;
 use App\Exception\BusinessException;
 use App\Schema\YsPlayerListSchema;
 use App\Schema\YsPlayerSchema;
@@ -76,6 +77,17 @@ class YsPlayerService extends Service
             $model,
             di()->get(YsRolerFormatter::class)->formatList($rolers)
         );
+    }
+
+    public function delete(int $id, int $userId): bool
+    {
+        $model = $this->dao->first($id, true);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        $model->is_deleted = Status::YES;
+        return $model->save();
     }
 
     public function syncPlayers(): void
