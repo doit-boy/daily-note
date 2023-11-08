@@ -21,6 +21,7 @@ use App\Service\Dao\YsRolerDao;
 use App\Service\Formatter\YsPlayerFormatter;
 use App\Service\Formatter\YsRolerFormatter;
 use App\Service\SubService\YsClient;
+use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 use Throwable;
@@ -75,6 +76,7 @@ class YsPlayerService extends Service
     public function syncPlayers(): void
     {
         $models = $this->dao->findListenPlayers();
+        $now = Carbon::now();
         foreach ($models as $model) {
             try {
                 $card = $this->client->getPlayerCard($model->uid);
@@ -82,6 +84,8 @@ class YsPlayerService extends Service
                 foreach ($card['role_data'] ?? [] as $item) {
                     di()->get(YsRolerDao::class)->create($model, $item, $map[$item['role']]);
                 }
+                $model->listen_time = $now->getTimestamp();
+                $model->save();
             } catch (Throwable $exception) {
                 $this->logger->error((string) $exception);
                 continue;
