@@ -68,7 +68,7 @@ class YsTest extends HttpTestCase
     public function testYsRolerSaveTarget()
     {
         $res = $this->json('/ys-roler/target', [
-            'roler_id' => 1,
+            'id' => 1,
             'level' => 50,
             'hp' => 9000,
             'attack' => 700,

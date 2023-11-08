@@ -98,7 +98,7 @@ class YsRolerController extends Controller
 
     #[SA\Post('/ys-roler/target', summary: '设置角色目标', tags: ['原神练度管理'])]
     #[SA\RequestBody(content: new SA\JsonContent(properties: [
-        new SA\Property(property: 'roler_id', description: '原神角色 ID', type: 'integer', rules: 'required|integer'),
+        new SA\Property(property: 'id', description: '原神角色 ID', type: 'integer', rules: 'required|integer'),
         new SA\Property(property: 'level', description: '等级', type: 'integer', rules: 'required|integer'),
         new SA\Property(property: 'hp', description: '生命值', type: 'integer', rules: 'required|integer'),
         new SA\Property(property: 'attack', description: '攻击力', type: 'integer', rules: 'required|integer'),
@@ -112,7 +112,7 @@ class YsRolerController extends Controller
     #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/SavedSchema'))]
     public function saveTarget(SwaggerRequest $request)
     {
-        $rolerId = (int) $request->input('roler_id');
+        $rolerId = (int) $request->input('id');
         $userId = UserAuth::instance()->build()->getId();
         $input = $request->all();
 
