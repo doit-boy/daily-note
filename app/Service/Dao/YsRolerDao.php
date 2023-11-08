@@ -72,6 +72,7 @@ class YsRolerDao extends Service
         return YsRoler::query()->where('user_id', $player->user_id)
             ->where('uid', $player->uid)
             ->orderBy('level', 'desc')
+            ->orderBy('artifacts_sum_point', 'desc')
             ->get();
     }
 }
