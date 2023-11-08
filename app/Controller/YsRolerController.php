@@ -84,6 +84,18 @@ class YsRolerController extends Controller
         return $this->response->success(new SavedSchema($result));
     }
 
+    #[SA\Get('/ys-roler/{id:\d+}/target', summary: '查看角色目标', tags: ['原神练度管理'])]
+    #[SA\PathParameter(name: 'id', description: '原神账号 ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(ref: '#/components/schemas/YsRolerSchema'))]
+    public function target(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->roler->target($id, $userId);
+
+        return $this->response->success($result);
+    }
+
     #[SA\Post('/ys-roler/target', summary: '设置角色目标', tags: ['原神练度管理'])]
     #[SA\RequestBody(content: new SA\JsonContent(properties: [
         new SA\Property(property: 'roler_id', description: '原神角色 ID', type: 'integer', rules: 'required|integer'),

@@ -15,6 +15,7 @@ namespace App\Service;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\YsRolerTarget;
+use App\Schema\YsRolerSchema;
 use App\Service\Dao\YsRolerDao;
 use App\Service\Dao\YsRolerTargetDao;
 use Han\Utils\Service;
@@ -66,5 +67,17 @@ class YsRolerService extends Service
         $target->recharge = $input['recharge'];
         $target->heal = $input['heal'];
         return $target->save();
+    }
+
+    public function target(int $id, int $userId): YsRolerSchema
+    {
+        $model = $this->dao->first($id);
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_DENY);
+        }
+
+        $target = di()->get(YsRolerTargetDao::class)->first($id);
+
+        return new YsRolerSchema($model, $target);
     }
 }
