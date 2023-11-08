@@ -39,7 +39,7 @@ class YsClient extends Service
 
         $result = Json::decode((string) $response->getBody());
         if ($result['code'] !== 200) {
-            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips']);
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result']);
         }
         return $result['result'];
     }
@@ -56,7 +56,7 @@ class YsClient extends Service
 
         $result = Json::decode((string) $response->getBody());
         if ($result['code'] !== 200) {
-            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips']);
+            throw new BusinessException(ErrorCode::YS_REQUEST_FAILED, $result['tips'] ?? $result['result']);
         }
         return $result['result'];
     }
