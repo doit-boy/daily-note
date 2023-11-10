@@ -24,6 +24,7 @@ use App\Service\Dao\YsRolerHistoryDao;
 use App\Service\Dao\YsRolerTargetDao;
 use Carbon\Carbon;
 use Han\Utils\Service;
+use Hyperf\Cache\Annotation\Cacheable;
 use Hyperf\Di\Annotation\Inject;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -91,6 +92,7 @@ class YsRolerService extends Service
         return new YsRolerSchema($model, $target);
     }
 
+    #[Cacheable(prefix: 'ys:chart:', value: '#{id}')]
     public function chart(int $id, int $userId): array
     {
         $target = $this->target->first($id);
@@ -117,7 +119,7 @@ class YsRolerService extends Service
 
         foreach (YsRolerColumn::enums() as $column) {
             $max = $target->{$column->value} ?? null;
-            if (! $max) {
+            if ($max <= 0) {
                 continue;
             }
 
@@ -132,7 +134,11 @@ class YsRolerService extends Service
                     $model = $prev;
                 }
 
-                $score = bcmul(bcdiv((string) $model->{$column->value}, (string) $target->{$column->value}, 4), '100', 2);
+                if ($model) {
+                    $score = bcmul(bcdiv((string) $model->{$column->value}, (string) $max, 4), '100', 2);
+                } else {
+                    $score = '0';
+                }
                 $chart[] = new ChartMetaSchema($dt, $score);
                 if ($index->toDateString() >= $now->toDateString()) {
                     break;

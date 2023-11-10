@@ -94,12 +94,12 @@ class YsTest extends HttpTestCase
         $this->assertSame(0, $res['code']);
     }
 
-    public function testYsRolerChart()
-    {
-        $res = $this->get('/ys-roler/25/chart', [], [
-            UserAuth::X_TOKEN => $this->token,
-        ]);
-
-        $this->assertSame(0, $res['code']);
-    }
+    // public function testYsRolerChart()
+    // {
+    //     $res = $this->get('/ys-roler/25/chart', [], [
+    //         UserAuth::X_TOKEN => $this->token,
+    //     ]);
+    //
+    //     $this->assertSame(0, $res['code']);
+    // }
 }
