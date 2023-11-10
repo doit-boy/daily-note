@@ -53,6 +53,15 @@ enum YsRolerColumn: string
         ];
     }
 
+    public static function values(): array
+    {
+        $result = [];
+        foreach (self::columns() as $column) {
+            $result[] = $column->value;
+        }
+        return $result;
+    }
+
     public function getName(): string
     {
         return match ($this) {

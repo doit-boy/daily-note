@@ -68,7 +68,7 @@ class YsRolerDao extends Service
         $model->raw_data = $rawData;
         $model->save();
 
-        if ($model->wasChanged($columns)) {
+        if ($model->wasChanged(YsRolerColumn::values())) {
             di()->get(YsRolerHistoryDao::class)->create($model, Carbon::now());
         }
 
