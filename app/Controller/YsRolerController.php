@@ -120,4 +120,16 @@ class YsRolerController extends Controller
 
         return $this->response->success(new SavedSchema($result));
     }
+
+    #[SA\Get('/ys-roler/{id:\d+}/chart', summary: '查看角色练度曲线', tags: ['原神练度管理'])]
+    #[SA\PathParameter(name: 'id', description: '原神账号 ID')]
+    #[SA\Response(response: '200', content: new SA\JsonContent(items: new SA\Items(ref: '#/components/schemas/ChartSchema')))]
+    public function chart(int $id)
+    {
+        $userId = UserAuth::instance()->build()->getId();
+
+        $result = $this->roler->chart($id, $userId);
+
+        return $this->response->success($result);
+    }
 }

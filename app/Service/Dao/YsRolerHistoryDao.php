@@ -16,6 +16,7 @@ use App\Model\YsRoler;
 use App\Model\YsRolerHistory;
 use Carbon\Carbon;
 use Han\Utils\Service;
+use Hyperf\Database\Model\Collection;
 
 class YsRolerHistoryDao extends Service
 {
@@ -43,5 +44,29 @@ class YsRolerHistoryDao extends Service
         $model->save();
 
         return $model;
+    }
+
+    /**
+     * @return Collection<int, YsRolerHistory>
+     */
+    public function findByRolerId(int $rolerId): Collection
+    {
+        return YsRolerHistory::query()->where('roler_id', $rolerId)
+            ->orderBy('dt', 'asc')
+            ->get();
+    }
+
+    /**
+     * @return array<string, YsRolerHistory>
+     */
+    public function findMapByRolerId(int $rolerId): array
+    {
+        $models = $this->findByRolerId($rolerId);
+        $result = [];
+        foreach ($models as $model) {
+            $result[$model->dt] = $model;
+        }
+
+        return $result;
     }
 }

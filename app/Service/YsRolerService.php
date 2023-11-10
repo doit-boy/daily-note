@@ -13,14 +13,21 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Constants\ErrorCode;
+use App\Constants\YsRolerColumn;
 use App\Exception\BusinessException;
 use App\Model\YsRolerTarget;
+use App\Schema\ChartMetaSchema;
+use App\Schema\ChartSchema;
 use App\Schema\YsRolerSchema;
 use App\Service\Dao\YsRolerDao;
+use App\Service\Dao\YsRolerHistoryDao;
 use App\Service\Dao\YsRolerTargetDao;
+use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 use JetBrains\PhpStorm\ArrayShape;
+
+use function Han\Utils\date_load;
 
 class YsRolerService extends Service
 {
@@ -29,6 +36,9 @@ class YsRolerService extends Service
 
     #[Inject]
     protected YsRolerTargetDao $target;
+
+    #[Inject]
+    protected YsRolerHistoryDao $history;
 
     public function saveTarget(
         int $rolerId,
@@ -79,5 +89,61 @@ class YsRolerService extends Service
         $target = di()->get(YsRolerTargetDao::class)->first($id);
 
         return new YsRolerSchema($model, $target);
+    }
+
+    public function chart(int $id, int $userId): array
+    {
+        $target = $this->target->first($id);
+        if (! $target) {
+            throw new BusinessException(ErrorCode::YS_ROLER_TARGET_NOT_EXIST);
+        }
+
+        $roler = $this->dao->first($id, true);
+        if ($roler->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::YS_ROLER_NOT_EXIST);
+        }
+
+        $history = $this->history->findMapByRolerId($roler->id);
+        if (! $history) {
+            throw new BusinessException(ErrorCode::YS_ROLER_HISTORY_NOT_EXIST);
+        }
+
+        $charts = [];
+        $beginDt = date_load(min(array_keys($history)));
+        $now = Carbon::now();
+        if ($now->diffInDays($beginDt) < 30) {
+            $beginDt = $now->clone()->subMonth();
+        }
+
+        foreach (YsRolerColumn::enums() as $column) {
+            $max = $target->{$column->value} ?? null;
+            if (! $max) {
+                continue;
+            }
+
+            $index = $beginDt->clone();
+            $chart = [];
+            $prev = null;
+            while (true) {
+                $dt = $index->toDateString();
+                if ($model = $history[$dt] ?? null) {
+                    $prev = $model;
+                } else {
+                    $model = $prev;
+                }
+
+                $score = bcmul(bcdiv((string) $model->{$column->value}, (string) $target->{$column->value}, 4), '100', 2);
+                $chart[] = new ChartMetaSchema($dt, $score);
+                if ($index->toDateString() >= $now->toDateString()) {
+                    break;
+                }
+
+                $index->addDay();
+            }
+
+            $charts[] = new ChartSchema($column->getName(), $chart);
+        }
+
+        return $charts;
     }
 }

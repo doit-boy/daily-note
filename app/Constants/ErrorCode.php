@@ -75,6 +75,16 @@ enum ErrorCode: int implements ErrorCodeInterface
      */
     case YS_ROLER_NOT_EXIST = 1401;
 
+    /**
+     * @Message("您没有设置原神角色练度目标，请设置后再查看")
+     */
+    case YS_ROLER_TARGET_NOT_EXIST = 1402;
+
+    /**
+     * @Message("暂无数据")
+     */
+    case YS_ROLER_HISTORY_NOT_EXIST = 1403;
+
     public function getMessage(array $translate = null): string
     {
         $arguments = [];

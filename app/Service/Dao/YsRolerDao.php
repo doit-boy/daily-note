@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Service\Dao;
 
 use App\Constants\ErrorCode;
+use App\Constants\YsRolerColumn;
 use App\Exception\BusinessException;
 use App\Model\YsPlayer;
 use App\Model\YsRoler;
@@ -60,9 +61,9 @@ class YsRolerDao extends Service
         $model->level = $data['level'] ?? 0;
         $model->role_data = $data;
         $model->artifacts_sum_point = $rawData['artifacts_sum_point2'];
-        $columns = ['hp', 'attack', 'defend', 'element', 'crit', 'crit_dmg', 'recharge', 'heal'];
+        $columns = YsRolerColumn::columns();
         foreach ($columns as $column) {
-            $model->setNumber($column, format_to_number($rawData[$column]));
+            $model->setNumber($column->value, format_to_number($rawData[$column->value]));
         }
         $model->raw_data = $rawData;
         $model->save();
